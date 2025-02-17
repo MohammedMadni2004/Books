@@ -1,8 +1,9 @@
 import { PrismaClient} from "@prisma/client";
 
 function connect() {
-  console.log( new PrismaClient());
+  return new PrismaClient();
 
 }
 
-export default connect;
+const prisma=connect();   
+export default prisma;
