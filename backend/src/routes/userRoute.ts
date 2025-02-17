@@ -5,3 +5,5 @@ const userRouter = express.Router();
 userRouter.get('/login', (req, res) => {
     
 });
+ 
+export default userRouter;
