@@ -27,6 +27,8 @@ async function login(req: Request, res: Response): Promise<Response> {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+
 async function register(req: Request, res: Response): Promise<Response> {
   try {
     const { email, password, name } = registerSchema.parse(req.body);
@@ -46,7 +48,7 @@ async function register(req: Request, res: Response): Promise<Response> {
         name: name,
       },
     });
-    
+
     return res.status(201).json({ user: newUser });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -56,4 +58,11 @@ async function register(req: Request, res: Response): Promise<Response> {
     return res.status(500).json({ message: "Server error" });
   }
 }
-export { login, register };
+
+
+async function getUser(req: Request, res: Response) {
+     return res.status(200).json({user:req.user});
+}
+
+
+export { login, register, getUser };
