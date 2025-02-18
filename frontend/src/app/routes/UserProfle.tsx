@@ -1,7 +1,7 @@
 function UserProfile(){
     return (
         <>
-            <div>User Page</div>
+            <div className="absolute right-1">User Page</div>
         </>
     )
 }
