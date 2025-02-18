@@ -28,4 +28,21 @@ async function getBookById(req: Request, res: Response): Promise<Response> {
         return res.status(500).json({ message: "Server error" });
     }
     }
-export { getAllBooks, getBookById };
+ 
+async function addBook(req: Request, res: Response): Promise<Response> {
+  try{
+    const {name, author }= req.body;
+    const book= await prisma.book.create({
+      data:{
+        name,
+        author,
+      },
+    });
+    return res.status(201).json({book});
+
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({message:"Server error"});
+  }
+}
+export { getAllBooks, getBookById, addBook };

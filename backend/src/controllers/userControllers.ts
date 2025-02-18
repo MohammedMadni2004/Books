@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { loginSchema, registerSchema } from "../schemas/userSchema";
 import z from "zod";
+import { generateToken } from "../utils/token";
+import { CustomRequest } from "../types/types";
 
 async function login(req: Request, res: Response): Promise<Response> {
   try {
@@ -21,7 +23,8 @@ async function login(req: Request, res: Response): Promise<Response> {
     if (!isValid) {
       return res.status(400).json({ message: "Invalid password" });
     }
-    return res.status(200).json({ message: "Login successful" });
+    const token=generateToken(user.id);
+    return res.status(200).json({ message: "Login successful", token:token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
@@ -48,7 +51,7 @@ async function register(req: Request, res: Response): Promise<Response> {
         name: name,
       },
     });
-
+    generateToken(newUser.id);
     return res.status(201).json({ user: newUser });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -60,7 +63,7 @@ async function register(req: Request, res: Response): Promise<Response> {
 }
 
 
-async function getUser(req: Request, res: Response) {
+async function getUser(req: CustomRequest, res: Response) {
      return res.status(200).json({user:req.user});
 }
 
