@@ -33,14 +33,14 @@ async function isAuthenticated(req: CustomRequest, res: Response, next: NextFunc
 }
   
 }
-
 async function checkAdmin(req: CustomRequest, res: Response, next: NextFunction) {
-  if (!req.user.isAdmin) {
-    return res.status(403).json({ message: "Forbidden need to authroize" });
+    if (req.user?.role !== "ADMIN") {  
+      return res.status(403).json({ message: "Forbidden need to authorize" });
+    }
+    console.log("done");
+    
+    next();
   }
-  console.log("done");
   
-  next();
-}
 
 export  { isAuthenticated, checkAdmin};
