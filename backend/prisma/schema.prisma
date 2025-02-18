@@ -17,20 +17,28 @@ model User {
 }
 
 model Book {
-  id        String    @id @default(cuid())
-  name      String
-  author    String            
-  reviews   Review[]
+  id          String      @id @default(cuid())
+  name        String
+  author      String
+  reviews     Review[]
+  categories  Category[]  // New relation to Category
 }
 
 model Review {
   id          String  @id @default(cuid())
   title       String
   description String
+  stars       Int     // New field for stars
   User        User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId      String?
   Book        Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId      String
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  books       Book[]   // Relation to Books
 }
 
 enum UserRole {
